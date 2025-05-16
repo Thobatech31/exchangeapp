@@ -1,0 +1,93 @@
+.candlestick-chart {
+  background-color: #0f1623;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.candlestick-chart__header {
+  padding: 0.75rem;
+  border-bottom: 1px solid #1f2937;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.candlestick-chart__pair-info {
+  display: flex;
+  align-items: center;
+}
+
+.candlestick-chart__pair-icons {
+  display: flex;
+  margin-right: 0.5rem;
+}
+
+.candlestick-chart__pair-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.candlestick-chart__pair-icon--base {
+  background-color: #eab308;
+  z-index: 1;
+}
+
+.candlestick-chart__pair-icon--quote {
+  background-color: #3b82f6;
+  margin-left: -0.25rem;
+}
+
+.candlestick-chart__pair-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.candlestick-chart__pair-name {
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0;
+}
+
+.candlestick-chart__pair-price {
+  display: flex;
+  align-items: center;
+}
+
+.candlestick-chart__price-value {
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.candlestick-chart__price-change {
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.candlestick-chart__price-change--up {
+  color: #00C076;
+}
+
+.candlestick-chart__price-change--down {
+  color: #ef4444;
+}
+
+.candlestick-chart__canvas-container {
+  flex: 1;
+  position: relative;
+  width: 100%;
+}
+
+.candlestick-chart__canvas {
+  position: absolute;
+  inset: 0;
+}

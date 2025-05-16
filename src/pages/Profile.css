@@ -1,0 +1,144 @@
+.profile {
+  min-height: 100vh;
+  background-color: #111827;
+  color: #ffffff;
+}
+
+.profile__container {
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.profile__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.profile__card {
+  background-color: #1f2937;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.profile__avatar-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.profile__avatar-container {
+  margin-right: 1.5rem;
+}
+
+.profile__avatar {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #374151;
+}
+
+.profile__avatar-placeholder {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background-color: #6366f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.profile__avatar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .profile__avatar-actions {
+    flex-direction: row;
+  }
+}
+
+.profile__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.profile__success {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.profile__form-group {
+  margin-bottom: 0;
+}
+
+.profile__security-section {
+  border: 1px solid #374151;
+  border-radius: 0.375rem;
+  padding: 1rem;
+}
+
+.profile__section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.profile__security-option {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  border-bottom: 1px solid #374151;
+}
+
+.profile__security-option:last-child {
+  border-bottom: none;
+}
+
+@media (min-width: 640px) {
+  .profile__security-option {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.profile__security-info {
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+  .profile__security-info {
+    margin-bottom: 0;
+    margin-right: 1rem;
+  }
+}
+
+.profile__security-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.profile__security-description {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.profile__form-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}

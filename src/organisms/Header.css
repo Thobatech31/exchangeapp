@@ -1,0 +1,180 @@
+.header {
+  background-color: #1C2127;
+  border-bottom: 1px solid #32383F;
+  width: 100%;
+}
+
+.header__container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+  width: 100%;
+}
+
+.header__left {
+  display: flex;
+  align-items: center;
+}
+
+.header__logo {
+  margin-right: 2.5rem;
+}
+
+.header__logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.header__logo-icon {
+  height: 2rem;
+  width: 2rem;
+  color: #6366f1;
+}
+
+.header__logo-text {
+  margin-left: 0.5rem;
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.header__nav {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .header__nav {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+}
+
+.header__right {
+  display: flex;
+  align-items: center;
+}
+
+.header__user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header__notification-button {
+  background-color: transparent;
+  padding: 0.25rem;
+  color: #9ca3af;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.header__notification-button:hover {
+  color: #ffffff;
+}
+
+.header__notification-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.header__user-profile {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    padding: 0.25rem 0.7rem;
+    padding-right: 1rem;
+    background: #12171D;
+}
+
+.header__user-avatar {
+  height: 2.25rem;
+  width: 2.25rem;
+  border-radius: 9999px;
+  background-color: #6366f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.header__user-name {
+  margin-left: 0.5rem;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.header__icon-button {
+  background-color: transparent;
+  color: #9ca3af;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__icon-button:hover {
+  color: #ffffff;
+}
+
+.header__icon {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.header__auth {
+  display: flex;
+  gap: 1rem;
+}
+
+.header__login-link {
+  color: #d1d5db;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.header__login-link:hover {
+  background-color: #374151;
+  color: #ffffff;
+}
+
+.header__signup-link {
+  background-color: #6366f1;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.header__signup-link:hover {
+  background-color: #4f46e5;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

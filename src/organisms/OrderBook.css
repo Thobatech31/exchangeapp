@@ -1,0 +1,140 @@
+.order-book {
+  background-color: #111827;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-book__header {
+  padding: 0.75rem;
+  border-bottom: 1px solid #1f2937;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-book__title {
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0;
+}
+
+.order-book__view-selector {
+  display: flex;
+  background-color: #1f2937;
+  padding: 0.25rem;
+  border-radius: 0.375rem;
+}
+
+.order-book__view-button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.order-book__view-button:hover {
+  color: #ffffff;
+}
+
+.order-book__view-button--active {
+  background-color: #374151;
+  color: #ffffff;
+}
+
+.order-book__content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.order-book__table {
+  width: 100%;
+  color: #d1d5db;
+  border-collapse: collapse;
+}
+
+.order-book__table-head {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  border-bottom: 1px solid #1f2937;
+}
+
+.order-book__header-cell {
+  padding: 0.5rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.order-book__header-cell--right {
+  text-align: right;
+}
+
+.order-book__row {
+  font-size: 0.75rem;
+}
+
+.order-book__row--current-price {
+  border-top: 1px solid #374151;
+  border-bottom: 1px solid #374151;
+  background-color: #1f2937;
+}
+
+.order-book__cell {
+  padding: 0.25rem 0.5rem;
+  text-align: right;
+}
+
+.order-book__cell--volume {
+  position: relative;
+}
+
+.order-book__volume {
+  position: relative;
+}
+
+.order-book__volume-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.order-book__volume-bar--ask {
+  background-color: rgba(239, 68, 68, 0.2);
+}
+
+.order-book__volume-bar--bid {
+  background-color: rgba(16, 185, 129, 0.2);
+}
+
+.order-book__volume-text {
+  position: relative;
+  z-index: 1;
+}
+
+.order-book__cell--price {
+  font-weight: 500;
+}
+
+.order-book__cell--ask {
+  color: #ef4444;
+}
+
+.order-book__cell--bid {
+  color: #00C076;
+}
+
+.order-book__cell--current-price {
+  text-align: center;
+  font-weight: 500;
+  color: #ffffff;
+  padding: 0.5rem;
+}

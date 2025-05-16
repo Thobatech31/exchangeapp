@@ -1,0 +1,8 @@
+.search-bar {
+  position: relative;
+  width: 100%;
+}
+
+.search-bar__icon {
+  color: #6b7280;
+}

@@ -1,0 +1,84 @@
+.button {
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  border: none;
+  outline: none;
+}
+
+.button:focus {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+}
+
+.button--primary {
+  background-color: #6366f1;
+  color: white;
+}
+
+.button--primary:hover:not(.button--disabled) {
+  background-color: #4f46e5;
+}
+
+.button--secondary {
+  background-color: #4b5563;
+  color: white;
+}
+
+.button--secondary:hover:not(.button--disabled) {
+  background-color: #374151;
+}
+
+.button--success {
+  background-color: #00C076;
+  color: white;
+}
+
+.button--success:hover:not(.button--disabled) {
+  background-color: #059669;
+}
+
+.button--danger {
+  background-color: #ef4444;
+  color: white;
+}
+
+.button--danger:hover:not(.button--disabled) {
+  background-color: #dc2626;
+}
+
+.button--outline {
+  background-color: transparent;
+  border: 1px solid #4b5563;
+  color: #e5e7eb;
+}
+
+.button--outline:hover:not(.button--disabled) {
+  background-color: #1f2937;
+}
+
+.button--sm {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.button--md {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+.button--lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.125rem;
+}
+
+.button--full-width {
+  width: 100%;
+  display: block;
+}
+
+.button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

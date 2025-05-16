@@ -1,0 +1,41 @@
+.currency-option {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  cursor: pointer;
+  border-bottom: 1px solid #1f2937;
+}
+
+.currency-option:hover {
+  background-color: #1f2937;
+}
+
+.currency-option--selected {
+  background-color: #1f2937;
+}
+
+.currency-option__flag {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.currency-option__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.currency-option__name {
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.currency-option__code {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}

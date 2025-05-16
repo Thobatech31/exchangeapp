@@ -1,0 +1,357 @@
+.dashboard {
+  width: 100%;
+  background-color: #0f1623;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.dashboard__market-info {
+  width: 100%;
+  background-color: #20252b;
+  border-bottom: 1px solid #1f2937;
+  padding: 0.75rem 1rem;
+}
+
+.dashboard__pair-selector {
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+  .dashboard__pair-selector {
+    flex-wrap: nowrap;
+  }
+}
+
+.dashboard__pair-info {
+  display: flex;
+  align-items: center;
+}
+
+.dashboard__pair-icons {
+  display: flex;
+  margin-right: 0.5rem;
+}
+
+.dashboard__pair-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.dashboard__pair-icon--base {
+  background-color: #eab308;
+  z-index: 1;
+}
+
+.dashboard__pair-icon--quote {
+  background-color: #3b82f6;
+  margin-left: -0.25rem;
+}
+
+.dashboard__pair-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  border: none;
+  color: #ffffff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dashboard__pair-button:hover {
+  background-color: #374151;
+}
+
+.dashboard__pair-name {
+  font-weight: 500;
+}
+
+.dashboard__pair-arrow {
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.dashboard__price-stats {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dashboard__price-container {
+  margin-right: 1rem;
+}
+
+.dashboard__price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #00c076;
+}
+
+.dashboard__price-change {
+  font-size: 0.875rem;
+}
+
+.dashboard__price-change--up {
+  color: #00c076;
+}
+
+.dashboard__price-change--down {
+  color: #ef4444;
+}
+
+.dashboard__stats {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.dashboard__stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard__stat-label {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.dashboard__stat-value {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.dashboard__content {
+  padding: 0;
+  max-width: 100%;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard__main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard__main-content--with-sidebar {
+  margin-left: 0;
+}
+
+@media (min-width: 1024px) {
+  .dashboard__content {
+    flex-direction: row;
+  }
+
+  .dashboard__sidebar {
+    width: 300px;
+    min-width: 300px;
+    border-right: 1px solid #1f2937;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+  }
+
+  .dashboard__main-content--with-sidebar {
+    margin-left: 300px;
+  }
+}
+
+.dashboard__timeframe-row {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #1f2937;
+}
+
+.dashboard__timeframe-selector {
+  display: flex;
+  gap: 0.25rem;
+  background-color: #1f2937;
+  padding: 0.25rem;
+  border-radius: 0.375rem;
+  width: fit-content;
+  overflow-x: auto;
+}
+
+.dashboard__timeframe-button {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dashboard__timeframe-button:hover {
+  color: #ffffff;
+  background-color: #374151;
+}
+
+.dashboard__timeframe-button--active {
+  background-color: #374151;
+  color: #ffffff;
+}
+
+/* Trading interface layout */
+.dashboard__trading-interface {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100vh - 180px);
+}
+
+@media (min-width: 1024px) {
+  .dashboard__trading-interface {
+    flex-direction: row;
+    height: calc(100vh - 180px);
+  }
+}
+
+/* Chart and Order Book group */
+.dashboard__chart-orderbook-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-right: 1px solid #1f2937;
+}
+
+@media (min-width: 1024px) {
+  .dashboard__chart-orderbook-group {
+    flex: 3; /* Takes 7.5 units (5 + 2.5) compared to order form's 2.5 units */
+    flex-direction: row;
+    width: auto;
+  }
+}
+
+/* Chart area */
+.dashboard__chart-area {
+  flex: 2; /* Takes 5 units within the group's 7.5 units */
+  min-height: 400px;
+  border-right: 1px solid #1f2937;
+}
+
+@media (min-width: 1024px) {
+  .dashboard__chart-area {
+    border-right: 1px solid #1f2937;
+  }
+}
+
+/* Order book */
+.dashboard__orderbook {
+  flex: 1; /* Takes 2.5 units within the group's 7.5 units */
+  min-height: 200px;
+}
+
+@media (min-width: 1024px) {
+  .dashboard__orderbook {
+    border-left: 1px solid #1f2937;
+  }
+}
+
+/* Order form (standalone) */
+.dashboard__orderform {
+  width: 100%;
+  min-height: 300px;
+}
+
+@media (min-width: 1024px) {
+  .dashboard__orderform {
+    flex: 1; /* Takes 2.5 units */
+    width: 350px;
+    min-width: 350px;
+    border-left: 1px solid #1f2937;
+  }
+}
+
+/* Orders section */
+.dashboard__orders {
+  width: 75.5%;
+  border-top: 1px solid #1f2937;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  background-color: #0f1623;
+  border-radius: 5px;
+}
+
+.dashboard__orders-tabs {
+  display: flex;
+  border-bottom: 1px solid #1f2937;
+  overflow-x: auto;
+  background-color: #1a1f2e;
+}
+
+.dashboard__orders-tab {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #9ca3af;
+  background: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  border-radius: 0.375rem 0.375rem 0 0;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.dashboard__orders-tab:hover {
+  color: #ffffff;
+  background-color: #374151;
+}
+
+.dashboard__orders-tab--active {
+  color: #ffffff;
+  border-bottom-color: #00c076;
+  background-color: #374151;
+}
+
+.dashboard__orders-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: #374151;
+}
+
+.dashboard__no-orders {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: #9ca3af;
+  padding: 1rem;
+}
+
+.dashboard__no-orders h3 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard__no-orders p {
+  color: #9ca3af;
+  max-width: 400px;
+  font-size: 0.875rem;
+}

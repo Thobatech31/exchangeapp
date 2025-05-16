@@ -1,0 +1,30 @@
+.trading-pairs {
+  background-color: #111827;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.trading-pairs__header {
+  padding: 0.75rem;
+  border-bottom: 1px solid #1f2937;
+}
+
+.trading-pairs__title {
+  color: #ffffff;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.trading-pairs__list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.trading-pairs__empty {
+  padding: 1rem;
+  text-align: center;
+  color: #9ca3af;
+}
