@@ -1,88 +1,69 @@
-
-import { useState, useEffect } from "react"
-import CandlestickChart from "../organisms/CandlestickChart"
-import OrderBook from "../organisms/OrderBook"
-import OrderForm from "../organisms/OrderForm"
-import TradingPairs from "../organisms/TradingPairs"
-import "./Dashboard.css"
-
-// Mock data
-const mockPairs = [
-  { baseCurrency: "BTC", quoteCurrency: "USDT", price: "56634.20", priceChange: 1.25 },
-  { baseCurrency: "ETH", quoteCurrency: "USDT", price: "3245.80", priceChange: 0.75 },
-  { baseCurrency: "SOL", quoteCurrency: "USDT", price: "124.50", priceChange: -2.3 },
-  { baseCurrency: "BNB", quoteCurrency: "USDT", price: "456.70", priceChange: 0.45 },
-  { baseCurrency: "ADA", quoteCurrency: "USDT", price: "0.45", priceChange: -1.2 },
-  { baseCurrency: "XRP", quoteCurrency: "USDT", price: "0.65", priceChange: 3.1 },
-]
-
-const generateMockCandles = (pair, count = 100) => {
-  const basePrice = Number.parseFloat(pair.price)
-  const volatility = basePrice * 0.02 // 2% volatility
-
-  const candles = []
-  for (let i = 0; i < count; i++) {
-    const timestamp = new Date(Date.now() - (count - i) * 3600000).getTime()
-    const open = i === 0 ? basePrice : candles[i - 1].close
-    const close = open * (1 + (Math.random() * volatility * 2 - volatility) / basePrice)
-    const high = Math.max(open, close) * (1 + Math.random() * 0.005)
-    const low = Math.min(open, close) * (1 - Math.random() * 0.005)
-    const volume = basePrice * Math.random() * 10
-
-    candles.push({ timestamp, open, high, low, close, volume })
-  }
-
-  return candles
-}
-
-const generateMockOrders = (pair, count = 15) => {
-  const basePrice = Number.parseFloat(pair.price)
-  const asks = []
-  const bids = []
-
-  for (let i = 0; i < count; i++) {
-    const askPrice = basePrice * (1 + 0.0001 * (i + 1))
-    const bidPrice = basePrice * (1 - 0.0001 * (i + 1))
-
-    const askVolume = Math.random() * 2
-    const bidVolume = Math.random() * 2
-
-    asks.push({
-      price: askPrice,
-      volume: askVolume,
-      total: askPrice * askVolume,
-    })
-
-    bids.push({
-      price: bidPrice,
-      volume: bidVolume,
-      total: bidPrice * bidVolume,
-    })
-  }
-
-  return { asks, bids }
-}
+import { useState, useEffect } from "react";
+import CandlestickChart from "../organisms/CandlestickChart";
+import OrderBook from "../organisms/OrderBook";
+import OrderForm from "../organisms/OrderForm";
+import TradingPairs from "../organisms/TradingPairs";
+import { fetchTradingPairs, fetchCandlestickData } from "../utils/api";
+import "./Dashboard.css";
 
 const Dashboard = () => {
-  const [selectedPair, setSelectedPair] = useState(mockPairs[0])
-  const [candleData, setCandleData] = useState([])
-  const [orderBook, setOrderBook] = useState({ asks: [], bids: [] })
-  const [showMarketSelector, setShowMarketSelector] = useState(false)
-  const [balance, setBalance] = useState({ base: 0.5, quote: 10000 })
-  const [timeframe, setTimeframe] = useState("1h")
-  const [activeTab, setActiveTab] = useState("open-orders")
+  const [pairs, setPairs] = useState([]);
+  const [selectedPair, setSelectedPair] = useState(null);
+  const [candleData, setCandleData] = useState([]);
+  const [showMarketSelector, setShowMarketSelector] = useState(false);
+  const [balance, setBalance] = useState({ base: 0.5, quote: 10000 });
+  const [timeframe, setTimeframe] = useState("1h");
+  const [activeTab, setActiveTab] = useState("open-orders");
 
   useEffect(() => {
-    if (selectedPair) {
-      const candles = generateMockCandles(selectedPair)
-      setCandleData(candles)
-      setOrderBook(generateMockOrders(selectedPair))
-    }
-  }, [selectedPair])
+    const loadPairs = async () => {
+      const fetchedPairs = await fetchTradingPairs();
+      setPairs(fetchedPairs);
+      if (fetchedPairs.length > 0) {
+        setSelectedPair(fetchedPairs[0]);
+      }
+    };
+    loadPairs();
+  }, []);
+
+  useEffect(() => {
+    const loadCandlestickData = async () => {
+      if (selectedPair && selectedPair.id) {
+        let days;
+        switch (timeframe) {
+          case "1m":
+          case "5m":
+          case "15m":
+            days = "1";
+            break;
+          case "1h":
+            days = "7";
+            break;
+          case "4h":
+          case "1d":
+            days = "30";
+            break;
+          case "1w":
+          case "1M":
+            days = "max";
+            break;
+          default:
+            days = "1";
+        }
+        const data = await fetchCandlestickData(selectedPair.id, days);
+        setCandleData(data);
+      }
+    };
+    loadCandlestickData();
+  }, [selectedPair, timeframe]);
 
   const handleSelectPair = (pair) => {
-    setSelectedPair(pair)
-    setShowMarketSelector(false)
+    setSelectedPair(pair);
+    setShowMarketSelector(false);
+  };
+
+  if (!selectedPair) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -137,19 +118,20 @@ const Dashboard = () => {
                     (Number.parseFloat(selectedPair.price) * Number.parseFloat(selectedPair.priceChange)) /
                     100
                   ).toFixed(2)}{" "}
-                  +{selectedPair.priceChange}%
+                  {selectedPair.priceChange >= 0 ? "+" : ""}
+                  {selectedPair.priceChange}%
                 </span>
               </div>
               <div className="dashboard__stat">
                 <span className="dashboard__stat-label">24h high</span>
                 <span className="dashboard__stat-value">
-                  ${(Number.parseFloat(selectedPair.price) * 1.02).toFixed(2)} +{selectedPair.priceChange}%
+                  ${(Number.parseFloat(selectedPair.price) * 1.02).toFixed(2)}
                 </span>
               </div>
               <div className="dashboard__stat">
                 <span className="dashboard__stat-label">24h low</span>
                 <span className="dashboard__stat-value">
-                  ${(Number.parseFloat(selectedPair.price) * 0.98).toFixed(2)} +{selectedPair.priceChange}%
+                  ${(Number.parseFloat(selectedPair.price) * 0.98).toFixed(2)}
                 </span>
               </div>
               <div className="dashboard__stat">
@@ -164,7 +146,7 @@ const Dashboard = () => {
       <div className="dashboard__content">
         {showMarketSelector && (
           <div className="dashboard__sidebar">
-            <TradingPairs pairs={mockPairs} onSelectPair={handleSelectPair} selectedPair={selectedPair} />
+            <TradingPairs onSelectPair={handleSelectPair} selectedPair={selectedPair} />
           </div>
         )}
 
@@ -224,19 +206,19 @@ const Dashboard = () => {
           </div>
 
           {/* Main trading interface */}
-       <div className="dashboard__trading-interface">
-  <div className="dashboard__chart-orderbook-group">
-    <div className="dashboard__chart-area">
-      <CandlestickChart pair={selectedPair} data={candleData} />
-    </div>
-    <div className="dashboard__orderbook">
-      <OrderBook asks={orderBook.asks} bids={orderBook.bids} selectedPair={selectedPair} />
-    </div>
-  </div>
-  <div className="dashboard__orderform">
-    <OrderForm pair={selectedPair} balance={balance} />
-  </div>
-</div>
+          <div className="dashboard__trading-interface">
+            <div className="dashboard__chart-orderbook-group">
+              <div className="dashboard__chart-area">
+                <CandlestickChart pair={selectedPair} timeframe={timeframe} />
+              </div>
+              <div className="dashboard__orderbook">
+                <OrderBook selectedPair={selectedPair} />
+              </div>
+            </div>
+            <div className="dashboard__orderform">
+              <OrderForm pair={selectedPair} balance={balance} />
+            </div>
+          </div>
 
           {/* Order history tabs */}
           <div className="dashboard__orders">
@@ -299,7 +281,7 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

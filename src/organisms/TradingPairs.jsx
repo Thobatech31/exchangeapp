@@ -1,19 +1,28 @@
+import { useEffect, useState } from "react";
+import SearchBar from "../molecules/SearchBar";
+import TradingPairItem from "../molecules/TradingPairItem";
+import { fetchTradingPairs } from "../utils/api";
+import "./TradingPairs.css";
 
-import { useState } from "react"
-import SearchBar from "../molecules/SearchBar"
-import TradingPairItem from "../molecules/TradingPairItem"
-import "./TradingPairs.css"
+const TradingPairs = ({ onSelectPair, selectedPair }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [tradingPairs, setTradingPairs] = useState([]);
 
-const TradingPairs = ({ pairs = [], onSelectPair, selectedPair }) => {
-  const [searchTerm, setSearchTerm] = useState("")
+  useEffect(() => {
+    const loadTradingPairs = async () => {
+      const data = await fetchTradingPairs();
+      setTradingPairs(data);
+    };
+    loadTradingPairs();
+  }, []);
 
   const handleSearch = (term) => {
-    setSearchTerm(term)
-  }
+    setSearchTerm(term);
+  };
 
-  const filteredPairs = pairs.filter((pair) =>
-    `${pair.baseCurrency}/${pair.quoteCurrency}`.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+  const filteredPairs = tradingPairs.filter((pair) =>
+    `${pair.baseCurrency}/${pair.quoteCurrency}`.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="trading-pairs">
@@ -43,7 +52,7 @@ const TradingPairs = ({ pairs = [], onSelectPair, selectedPair }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TradingPairs
+export default TradingPairs;

@@ -1,20 +1,21 @@
+import { useEffect, useState } from "react";
+import { fetchOrderBook } from "../utils/api";
+import "./OrderBook.css";
 
-import { useState } from "react"
-import "./OrderBook.css"
-
-const OrderBook = ({ asks = [], bids = [], selectedPair }) => {
-  const [view, setView] = useState("both") // 'both', 'asks', 'bids'
+const OrderBook = ({ selectedPair }) => {
+  const [view, setView] = useState("both"); // 'both', 'asks', 'bids'
+  const [orderBook, setOrderBook] = useState({ asks: [], bids: [] });
 
   // Find the highest volume for scaling
-  const allVolumes = [...asks, ...bids].map((order) => order.volume)
-  const maxVolume = Math.max(...allVolumes, 1)
+  const allVolumes = [...orderBook.asks, ...orderBook.bids].map((order) => order.volume);
+  const maxVolume = Math.max(...allVolumes, 1);
 
-  const renderOrderRow = (order, type) => {
-    const volumePercentage = (order.volume / maxVolume) * 100
-    const bgClass = type === "ask" ? "order-book__volume-bar--ask" : "order-book__volume-bar--bid"
+  const renderOrderRow = (order, type, index) => {
+    const volumePercentage = (order.volume / maxVolume) * 100;
+    const bgClass = type === "ask" ? "order-book__volume-bar--ask" : "order-book__volume-bar--bid";
 
     return (
-      <tr key={`${type}-${order.price}`} className="order-book__row">
+      <tr key={`${type}-${order.price}-${index}`} className="order-book__row">
         <td className="order-book__cell order-book__cell--volume">
           <div className="order-book__volume">
             <div className={`order-book__volume-bar ${bgClass}`} style={{ width: `${volumePercentage}%` }} />
@@ -26,8 +27,18 @@ const OrderBook = ({ asks = [], bids = [], selectedPair }) => {
         </td>
         <td className="order-book__cell order-book__cell--total">{order.total.toFixed(2)}</td>
       </tr>
-    )
-  }
+    );
+  };
+
+  useEffect(() => {
+    const loadOrderBook = async () => {
+      if (selectedPair && selectedPair.id) {
+        const data = await fetchOrderBook(selectedPair.id); // Use id (e.g., "bitcoin")
+        setOrderBook(data);
+      }
+    };
+    loadOrderBook();
+  }, [selectedPair]);
 
   return (
     <div className="order-book">
@@ -66,10 +77,16 @@ const OrderBook = ({ asks = [], bids = [], selectedPair }) => {
           <tbody className="order-book__table-body">
             {(view === "asks" || view === "both") && (
               <>
-                {asks
-                  .slice()
-                  .reverse()
-                  .map((ask) => renderOrderRow(ask, "ask"))}
+                {orderBook.asks.length > 0 ? (
+                  orderBook.asks
+                    .slice()
+                    .reverse()
+                    .map((ask, index) => renderOrderRow(ask, "ask", index))
+                ) : (
+                  <tr>
+                    <td colSpan="3">No asks available</td>
+                  </tr>
+                )}
               </>
             )}
 
@@ -81,12 +98,22 @@ const OrderBook = ({ asks = [], bids = [], selectedPair }) => {
               </tr>
             )}
 
-            {(view === "bids" || view === "both") && <>{bids.map((bid) => renderOrderRow(bid, "bid"))}</>}
+            {(view === "bids" || view === "both") && (
+              <>
+                {orderBook.bids.length > 0 ? (
+                  orderBook.bids.map((bid, index) => renderOrderRow(bid, "bid", index))
+                ) : (
+                  <tr>
+                    <td colSpan="3">No bids available</td>
+                  </tr>
+                )}
+              </>
+            )}
           </tbody>
         </table>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default OrderBook
+export default OrderBook;

@@ -1,19 +1,19 @@
+import { useState, useEffect } from "react";
+import Button from "../atoms/Button";
+import Input from "../atoms/Input";
+import Badge from "../atoms/Badge";
+import "./Wallet.css";
+import { fetchWalletData } from "../utils/api";
 
-import { useState, useEffect } from "react"
-import Button from "../atoms/Button"
-import Input from "../atoms/Input"
-import Badge from "../atoms/Badge"
-import "./Wallet.css"
-
-// Mock data
+// Mock data structure (updated dynamically with real prices)
 const mockAssets = [
-  { id: 1, name: "Bitcoin", symbol: "BTC", balance: 0.5, value: 28317.1, change: 1.25 },
-  { id: 2, name: "Ethereum", symbol: "ETH", balance: 4.2, value: 13632.36, change: 0.75 },
-  { id: 3, name: "Solana", symbol: "SOL", balance: 25, value: 3112.5, change: -2.3 },
-  { id: 4, name: "Binance Coin", symbol: "BNB", balance: 10, value: 4567, change: 0.45 },
-  { id: 5, name: "Cardano", symbol: "ADA", balance: 1000, value: 450, change: -1.2 },
-  { id: 6, name: "XRP", symbol: "XRP", balance: 1500, value: 975, change: 3.1 },
-]
+  { id: 1, name: "Bitcoin", symbol: "BTC", balance: 0.5, coinId: "bitcoin" },
+  { id: 2, name: "Ethereum", symbol: "ETH", balance: 4.2, coinId: "ethereum" },
+  { id: 3, name: "Solana", symbol: "SOL", balance: 25, coinId: "solana" },
+  { id: 4, name: "Binance Coin", symbol: "BNB", balance: 10, coinId: "binancecoin" },
+  { id: 5, name: "Cardano", symbol: "ADA", balance: 1000, coinId: "cardano" },
+  { id: 6, name: "XRP", symbol: "XRP", balance: 1500, coinId: "ripple" },
+];
 
 const mockTransactions = [
   {
@@ -43,60 +43,68 @@ const mockTransactions = [
     date: "2023-05-16T09:15:00Z",
     txid: "0x7890abcdef1234567890abcdef1234567890abcdef1234567890abcdef123456",
   },
-]
+];
 
 const Wallet = () => {
-  const [assets, setAssets] = useState([])
-  const [transactions, setTransactions] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState("assets")
-  const [selectedAsset, setSelectedAsset] = useState(null)
-  const [depositAmount, setDepositAmount] = useState("")
-  const [withdrawAmount, setWithdrawAmount] = useState("")
-  const [showDepositModal, setShowDepositModal] = useState(false)
-  const [showWithdrawModal, setShowWithdrawModal] = useState(false)
+  const [assets, setAssets] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("assets");
+  const [selectedAsset, setSelectedAsset] = useState(null);
+  const [depositAmount, setDepositAmount] = useState("");
+  const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [showDepositModal, setShowDepositModal] = useState(false);
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
   useEffect(() => {
-    // Fetch wallet data from API in a real implementation
-    // For now, we'll use mock data
-    const fetchWalletData = async () => {
-      // Simulate API call
-      setLoading(true)
-      setTimeout(() => {
-        setAssets(mockAssets)
-        setTransactions(mockTransactions)
-        setLoading(false)
-      }, 500)
-    }
+    const fetchWalletDataAsync = async () => {
+      setLoading(true);
+      try {
+        const coinIds = mockAssets.map((asset) => asset.coinId);
+        const priceData = await fetchWalletData(coinIds);
+        const updatedAssets = mockAssets.map((asset) => {
+          const price = priceData[asset.coinId]?.usd || 0;
+          const value = asset.balance * price;
+          const change = Math.random() * 6 - 3; // Random change for demo
+          return { ...asset, value, change };
+        });
+        setAssets(updatedAssets);
+        setTransactions(mockTransactions);
+      } catch (error) {
+        console.error("Failed to fetch wallet data:", error);
+        setAssets(mockAssets.map((asset) => ({ ...asset, value: 0, change: 0 })));
+        setTransactions(mockTransactions);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    fetchWalletData()
-  }, [])
+    fetchWalletDataAsync();
+  }, []);
 
-  const totalValue = assets.reduce((sum, asset) => sum + asset.value, 0)
+  const totalValue = assets.reduce((sum, asset) => sum + (asset.value || 0), 0);
 
   const handleDeposit = (asset) => {
-    setSelectedAsset(asset)
-    setShowDepositModal(true)
-  }
+    setSelectedAsset(asset);
+    setShowDepositModal(true);
+  };
 
   const handleWithdraw = (asset) => {
-    setSelectedAsset(asset)
-    setShowWithdrawModal(true)
-  }
+    setSelectedAsset(asset);
+    setShowWithdrawModal(true);
+  };
 
   const submitDeposit = () => {
-    // In a real implementation, this would call an API
-    console.log(`Depositing ${depositAmount} ${selectedAsset.symbol}`)
-    setShowDepositModal(false)
-    setDepositAmount("")
-  }
+    console.log(`Depositing ${depositAmount} ${selectedAsset.symbol}`);
+    setShowDepositModal(false);
+    setDepositAmount("");
+  };
 
   const submitWithdraw = () => {
-    // In a real implementation, this would call an API
-    console.log(`Withdrawing ${withdrawAmount} ${selectedAsset.symbol}`)
-    setShowWithdrawModal(false)
-    setWithdrawAmount("")
-  }
+    console.log(`Withdrawing ${withdrawAmount} ${selectedAsset.symbol}`);
+    setShowWithdrawModal(false);
+    setWithdrawAmount("");
+  };
 
   return (
     <div className="wallet">
@@ -159,7 +167,7 @@ const Wallet = () => {
                         <td className="wallet__cell wallet__cell--right">
                           <Badge variant={asset.change >= 0 ? "success" : "danger"}>
                             {asset.change >= 0 ? "+" : ""}
-                            {asset.change}%
+                            {asset.change.toFixed(2)}%
                           </Badge>
                         </td>
                         <td className="wallet__cell wallet__cell--right wallet__cell--actions">
@@ -241,7 +249,7 @@ const Wallet = () => {
               <div className="wallet__modal-header">
                 <h3 className="wallet__modal-title">Deposit {selectedAsset.name}</h3>
                 <button className="wallet__modal-close" onClick={() => setShowDepositModal(false)}>
-                  &times;
+                  ×
                 </button>
               </div>
               <div className="wallet__modal-body">
@@ -284,7 +292,7 @@ const Wallet = () => {
               <div className="wallet__modal-header">
                 <h3 className="wallet__modal-title">Withdraw {selectedAsset.name}</h3>
                 <button className="wallet__modal-close" onClick={() => setShowWithdrawModal(false)}>
-                  &times;
+                  ×
                 </button>
               </div>
               <div className="wallet__modal-body">
@@ -315,7 +323,7 @@ const Wallet = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Wallet
+export default Wallet;
