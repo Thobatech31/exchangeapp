@@ -1,18 +1,38 @@
-import { Link, useLocation } from "react-router-dom"
-import NavLink from "../molecules/NavLink"
-import globeIcon from "../assets/icons/globe.svg"
-import signoutIcon from "../assets/icons/signout.svg"
-import userIcon from "../assets/icons/user.svg"
-import "./Header.css"
+import { Link, useLocation } from "react-router-dom";
+import NavLink from "../molecules/NavLink";
+import globeIcon from "../assets/icons/globe.svg";
+import signoutIcon from "../assets/icons/signout.svg";
+import userIcon from "../assets/icons/user.svg";
+import hamburgerIcon from "../assets/icons/hamburger.svg";
+import WifiIcon from "../assets/icons/wifi.svg";
+import BatteryIcon from "../assets/icons/battery.svg";  
+import SignalIcon from "../assets/icons/CellularConnection.svg";
+import "./Header.css";
 
 const Header = ({ user }) => {
-  const location = useLocation()
+  const location = useLocation();
 
   // Mock user for demonstration
-  const mockUser = user || { name: "Owolabi Toba" }
+  const mockUser = user || { name: "Owolabi Toba" };
+
+  // Get current time for mobile status bar
+  const currentTime = new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   return (
     <header className="header">
+      {/* Status bar for mobile */}
+      <div className="header__status-bar">
+        <span className="header__status-time">{currentTime}</span>
+        <div className="header__status-icons">
+          <img src={SignalIcon} alt="Signal" className="header__status-icon" />
+          <img src={WifiIcon} alt="Wi-Fi" className="header__status-icon" />
+          <img src={BatteryIcon} alt="Battery" className="header__status-icon" />
+        </div>
+      </div>
+
       <div className="header__container">
         <div className="header__left">
           <div className="header__logo">
@@ -43,26 +63,19 @@ const Header = ({ user }) => {
         <div className="header__right">
           {mockUser ? (
             <div className="header__user-section">
-          
-
               <div className="header__user-profile">
                 <div className="header__user-avatar">
-                  <img src={userIcon} alt="User Avatar" className="header__avatar-icon"/>
+                  <img src={userIcon} alt="User Avatar" className="header__avatar-icon" />
                 </div>
                 <span className="header__user-name">{mockUser.name}</span>
               </div>
-
-              
-                <img
-                  src={globeIcon}
-                  alt="Language settings"
-                  className="header__icon"/>
-
-      
-                <img
-                  src={signoutIcon}
-                  alt="Account settings"
-                  className="header__icon"/>
+              <button className="header__icon-button">
+                <img src={globeIcon} alt="Language settings" className="header__icon" />
+              </button>
+              <button className="header__icon-button header__icon-button--menu">
+                <img src={hamburgerIcon} alt="Menu" className="header__icon header__icon--mobile" />
+                <img src={signoutIcon} alt="Sign out" className="header__icon header__icon--desktop" />
+              </button>
             </div>
           ) : (
             <div className="header__auth">
@@ -77,7 +90,7 @@ const Header = ({ user }) => {
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

@@ -5,6 +5,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+    padding: 0 2rem;
+
 }
 
 .order-book__header {
@@ -19,6 +21,7 @@
   font-weight: 500;
   color: #ffffff;
   margin: 0;
+  font-size: 1rem; /* Slightly larger for better readability */
 }
 
 .order-book__view-selector {
@@ -129,7 +132,7 @@
 }
 
 .order-book__cell--bid {
-  color: #00C076;
+  color: #00c076;
 }
 
 .order-book__cell--current-price {
@@ -137,4 +140,116 @@
   font-weight: 500;
   color: #ffffff;
   padding: 0.5rem;
+}
+
+/* Buy and Sell buttons */
+.order-book__actions {
+  display: none; /* Hidden by default, shown on mobile */
+}
+
+.order-book__action-button {
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  flex: 1;
+}
+
+.order-book__action-button--buy {
+  background-color: #00c076;
+  color: #ffffff;
+}
+
+.order-book__action-button--buy:hover {
+  background-color: #00a060;
+}
+
+.order-book__action-button--sell {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.order-book__action-button--sell:hover {
+  background-color: #d43a3a;
+}
+
+/* Desktop adjustments (min-width: 768px) */
+@media (min-width: 768px) {
+  .order-book__title {
+    font-size: 1.125rem; /* Slightly larger for desktop */
+  }
+
+  .order-book__view-button {
+    font-size: 0.875rem; /* Larger font for desktop */
+    padding: 0.375rem 0.75rem;
+  }
+
+  .order-book__table-head {
+    font-size: 0.875rem; /* Larger header text for desktop */
+  }
+
+  .order-book__row {
+    font-size: 0.875rem; /* Larger row text for desktop */
+  }
+
+  .order-book__cell {
+    padding: 0.5rem; /* More padding for desktop */
+  }
+
+  .order-book__cell--current-price {
+    font-size: 1rem; /* Slightly larger current price text */
+  }
+}
+
+/* Mobile optimization (max-width: 768px) */
+@media (max-width: 768px) {
+  .order-book {
+    border-radius: 0; 
+    height: 500px;
+    overflow: hidden;
+  }
+
+  .order-book__header {
+    padding: 0.5rem;
+  }
+
+  .order-book__title {
+    font-size: 0.875rem; /* Smaller title for mobile */
+  }
+
+  .order-book__view-selector {
+    padding: 0.125rem;
+  }
+
+  .order-book__view-button {
+    font-size: 0.65rem; /* Smaller buttons for mobile */
+    padding: 0.25rem 0.5rem;
+  }
+
+  .order-book__table-head {
+    font-size: 0.65rem; /* Smaller header text for mobile */
+  }
+
+  .order-book__row {
+    font-size: 0.65rem; /* Smaller row text for mobile */
+  }
+
+  .order-book__cell {
+    padding: 0.25rem 0.375rem; /* Reduced padding for mobile */
+  }
+
+  .order-book__cell--current-price {
+    font-size: 0.875rem; /* Slightly smaller current price text for mobile */
+    padding: 0.375rem;
+  }
+
+  .order-book__actions {
+    display: flex; /* Show Buy/Sell buttons on mobile */
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: #111827;
+    border-top: 1px solid #1f2937;
+  }
 }

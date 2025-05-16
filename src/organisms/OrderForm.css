@@ -354,3 +354,15 @@
 .order-form__deposit-button:hover {
   background-color: #2c5282;
 }
+
+.order-form__actions {
+  display: flex; /* Hidden by default, shown on mobile */
+  
+}
+
+/* Mobile optimization (max-width: 768px) */
+@media (max-width: 768px) {
+  .order-form__actions {
+    display: none; /* Show Buy/Sell buttons on mobile */
+  }
+}

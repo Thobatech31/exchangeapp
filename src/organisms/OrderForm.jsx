@@ -58,7 +58,7 @@ const OrderForm = ({ pair, balance = { base: 0, quote: 0 } }) => {
     <div className="order-form">
       <div className="order-form__content">
         {/* Buy/Sell tabs */}
-        <div className="order-form__tabs">
+        <div className="order-form__tabs order-form__actions">
           <button
             className={`order-form__tab order-form__tab--buy ${side === "buy" ? "order-form__tab--active" : ""}`}
             onClick={() => setSide("buy")}

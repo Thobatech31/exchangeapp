@@ -112,6 +112,10 @@ const OrderBook = ({ selectedPair }) => {
           </tbody>
         </table>
       </div>
+      <div className="order-book__actions">
+        <button className="order-book__action-button order-book__action-button--buy">Buy</button>
+        <button className="order-book__action-button order-book__action-button--sell">Sell</button>
+      </div>
     </div>
   );
 };

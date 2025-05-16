@@ -89,17 +89,41 @@ export const fetchOrderBook = async (coinId = 'bitcoin') => {
 export const fetchCandlestickData = async (coinId = 'bitcoin', days = '1') => {
   const key = `candlestick:${coinId}:${days}`;
   const fetchFunction = async () => {
-    const response = await axios.get(`${BASE_URL_COINGECKO}/coins/${coinId}/ohlc`, {
+    // Fetch OHLC data
+    const ohlcResponse = await axios.get(`${BASE_URL_COINGECKO}/coins/${coinId}/ohlc`, {
       params: { vs_currency: 'usd', days },
     });
-    return response.data.map(d => ({
+
+    // Fetch volume data
+    const volumeResponse = await axios.get(`${BASE_URL_COINGECKO}/coins/${coinId}/market_chart`, {
+      params: { vs_currency: 'usd', days },
+    });
+
+    // Map OHLC data
+    const ohlcData = ohlcResponse.data.map(d => ({
       timestamp: d[0],
       open: d[1],
       high: d[2],
       low: d[3],
       close: d[4],
-      volume: 0,
     }));
+
+    // Map volume data
+    const volumeData = volumeResponse.data.total_volumes;
+
+    // Merge OHLC and volume data based on timestamps
+    return ohlcData.map((candle, index) => {
+      // Find the closest volume data point by timestamp
+      const closestVolume = volumeData.reduce((prev, curr) => {
+        const prevDiff = Math.abs(prev[0] - candle.timestamp);
+        const currDiff = Math.abs(curr[0] - candle.timestamp);
+        return currDiff < prevDiff ? curr : prev;
+      }, volumeData[0]);
+      return {
+        ...candle,
+        volume: closestVolume ? closestVolume[1] : 0, // Volume in USD
+      };
+    });
   };
 
   try {
